@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>DE Associate Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --purple: #7C3AED;
+  --purple-light: #A78BFA;
+  --purple-dark: #5B21B6;
+  --violet: #8B5CF6;
+  --pink: #EC4899;
+  --cyan: #06B6D4;
+  --green: #10B981;
+  --orange: #F59E0B;
+  --red: #EF4444;
+  --bg: #F5F3FF;
+  --card: #FFFFFF;
+  --text: #1E1B4B;
+  --text-2: #6B7280;
+  --text-3: #9CA3AF;
+  --border: #E5E7EB;
+  --radius: 20px;
+  --radius-sm: 12px;
+  --shadow: 0 4px 24px rgba(124,58,237,0.10);
+  --shadow-card: 0 2px 12px rgba(0,0,0,0.07);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  max-width: 430px;
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 { font-family: 'Nunito', sans-serif; }
+
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: block; }
+
+/* ── NAV BAR ── */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 430px;
+  background: #fff; border-top: 1px solid var(--border);
+  display: flex; z-index: 100;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.nav-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  padding: 10px 0 8px; cursor: pointer; gap: 3px;
+  font-size: 10px; font-weight: 600; color: var(--text-3);
+  font-family: 'Nunito', sans-serif; transition: color .2s;
+}
+.nav-item.active { color: var(--purple); }
+.nav-item svg { width: 22px; height: 22px; }
+
+/* ── HEADER ── */
+.page-header {
+  background: linear-gradient(135deg, var(--purple) 0%, #6D28D9 60%, #4C1D95 100%);
+  padding: 52px 20px 28px;
+  position: relative; overflow: hidden;
+}
+.page-header::before {
+  content:''; position:absolute; top:-40px; right:-40px;
+  width:180px; height:180px; border-radius:50%;
+  background: rgba(255,255,255,0.07);
+}
+.page-header::after {
+  content:''; position:absolute; bottom:-60px; left:-20px;
+  width:140px; height:140px; border-radius:50%;
+  background: rgba(255,255,255,0.05);
+}
+.page-header h1 { font-size: 26px; color: #fff; font-weight: 900; line-height: 1.2; }
+.page-header p { color: rgba(255,255,255,0.75); font-size: 13px; margin-top: 4px; }
+
+/* ── READINESS PILL ── */
+.readiness-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.18); border-radius: 30px;
+  padding: 6px 14px; margin-top: 14px;
+}
+.readiness-pill span { color: #fff; font-size: 13px; font-weight: 700; font-family: 'Nunito', sans-serif; }
+.readiness-pill .pct { font-size: 18px; }
+
+/* ── OVERALL BAR ── */
+.ov-bar-wrap { margin-top: 10px; }
+.ov-bar-track { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.2); overflow: hidden; }
+.ov-bar-fill { height: 100%; border-radius: 3px; background: #fff; transition: width .6s cubic-bezier(.4,0,.2,1); }
+.ov-bar-label { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 5px; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--card); border-radius: var(--radius);
+  box-shadow: var(--shadow-card); padding: 18px;
+}
+.card-sm { border-radius: var(--radius-sm); }
+
+/* ── STAT STRIP ── */
+.stat-strip {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px; margin: -24px 16px 0; position: relative; z-index: 10;
+}
+.stat-box {
+  background: #fff; border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-card); padding: 14px 10px; text-align: center;
+}
+.stat-box .num { font-family: 'Nunito', sans-serif; font-size: 20px; font-weight: 900; color: var(--purple); }
+.stat-box .lbl { font-size: 10px; color: var(--text-2); margin-top: 2px; font-weight: 600; }
+
+/* ── SECTION ── */
+.section { padding: 20px 16px 0; }
+.section-title { font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 12px; }
+
+/* ── MOCK CARD ── */
+.mock-card {
+  background: linear-gradient(135deg, #7C3AED, #4C1D95);
+  border-radius: var(--radius); padding: 20px; display: flex;
+  align-items: center; gap: 14px; cursor: pointer;
+  box-shadow: 0 8px 24px rgba(124,58,237,0.35);
+  transition: transform .15s, box-shadow .15s;
+}
+.mock-card:active { transform: scale(.98); }
+.mock-card-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.mock-card h3 { font-size: 16px; font-weight: 800; color: #fff; }
+.mock-card p { font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 2px; }
+.mock-tags { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.mock-tag { font-size: 10px; padding: 3px 8px; border-radius: 20px; background: rgba(255,255,255,0.2); color: #fff; font-weight: 600; }
+
+/* ── TOPIC ROW ── */
+.topic-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 0; border-bottom: 1px solid var(--border); cursor: pointer;
+  transition: opacity .15s;
+}
+.topic-row:last-child { border-bottom: none; }
+.topic-row:active { opacity: .7; }
+.topic-icon-box {
+  width: 42px; height: 42px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.topic-name { font-weight: 700; font-size: 14px; color: var(--text); font-family: 'Nunito', sans-serif; }
+.topic-sub { font-size: 11px; color: var(--text-2); margin-top: 1px; }
+.topic-right { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.mastery-pill { font-size: 10px; padding: 3px 9px; border-radius: 20px; font-weight: 700; }
+.mp-none { background: #F3F4F6; color: var(--text-3); }
+.mp-low { background: #FEE2E2; color: #991B1B; }
+.mp-mid { background: #FEF3C7; color: #92400E; }
+.mp-high { background: #D1FAE5; color: #065F46; }
+.mp-full { background: #C7D2FE; color: #3730A3; }
+.topic-mini-bar { width: 54px; height: 4px; border-radius: 2px; background: #E5E7EB; overflow: hidden; }
+.topic-mini-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--purple-light), var(--purple)); transition: width .4s; }
+
+/* ── QUIZ SCREEN ── */
+.quiz-top {
+  background: linear-gradient(135deg, var(--purple), #4C1D95);
+  padding: 52px 20px 20px;
+}
+.quiz-top-row { display: flex; align-items: center; gap: 10px; }
+.back-btn {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: rgba(255,255,255,0.15); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0;
+}
+.quiz-topic-name { font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; color: #fff; }
+.quiz-prog-row { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
+.quiz-prog-bar { flex: 1; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.2); overflow: hidden; }
+.quiz-prog-fill { height: 100%; border-radius: 3px; background: #fff; transition: width .4s; }
+.quiz-prog-text { font-size: 12px; color: rgba(255,255,255,0.8); font-weight: 700; white-space: nowrap; font-family: 'Nunito', sans-serif; }
+.streak-row { display: flex; gap: 5px; margin-top: 10px; }
+.s-dot { width: 12px; height: 12px; border-radius: 50%; }
+.s-ok { background: #A7F3D0; }
+.s-bad { background: #FCA5A5; }
+.s-empty { background: rgba(255,255,255,0.2); }
+
+.quiz-body { padding: 16px 16px 100px; }
+
+.q-card {
+  background: #fff; border-radius: var(--radius); box-shadow: var(--shadow-card);
+  padding: 20px; margin-bottom: 14px;
+}
+.q-number { font-size: 11px; font-weight: 700; color: var(--purple-light); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .05em; }
+.q-text { font-size: 15px; color: var(--text); line-height: 1.6; font-weight: 500; }
+.q-code {
+  background: #1E1B4B; border-radius: 10px; padding: 12px 14px;
+  margin-top: 12px; font-family: 'Courier New', monospace; font-size: 12px;
+  color: #A78BFA; line-height: 1.7; white-space: pre-wrap;
+}
+
+.opt-btn {
+  width: 100%; background: #fff; border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); padding: 13px 14px;
+  text-align: left; font-size: 14px; color: var(--text);
+  cursor: pointer; margin-bottom: 10px; display: flex; align-items: flex-start; gap: 12px;
+  line-height: 1.4; font-family: 'DM Sans', sans-serif; font-weight: 500;
+  transition: border-color .15s, background .15s; box-shadow: var(--shadow-card);
+}
+.opt-btn:active:not(:disabled) { transform: scale(.99); }
+.opt-btn.selected { border-color: var(--purple); background: #F5F3FF; }
+.opt-btn.correct { background: #D1FAE5; border-color: #10B981; color: #065F46; }
+.opt-btn.wrong { background: #FEE2E2; border-color: #EF4444; color: #991B1B; }
+.opt-btn.reveal { background: #D1FAE5; border-color: #10B981; color: #065F46; opacity: .75; }
+.opt-letter {
+  width: 24px; height: 24px; border-radius: 8px;
+  background: var(--bg); display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; flex-shrink: 0; font-family: 'Nunito', sans-serif;
+  color: var(--purple);
+}
+.opt-btn.correct .opt-letter { background: #10B981; color: #fff; }
+.opt-btn.wrong .opt-letter { background: #EF4444; color: #fff; }
+.opt-btn.reveal .opt-letter { background: #10B981; color: #fff; }
+.opt-btn.selected .opt-letter { background: var(--purple); color: #fff; }
+
+.fb-card { border-radius: var(--radius-sm); padding: 14px; margin-bottom: 14px; }
+.fb-ok { background: #D1FAE5; border: 1px solid #6EE7B7; }
+.fb-bad { background: #FEE2E2; border: 1px solid #FCA5A5; }
+.fb-title { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+.fb-ok .fb-title { color: #065F46; }
+.fb-bad .fb-title { color: #991B1B; }
+.fb-body { font-size: 13px; line-height: 1.5; }
+.fb-ok .fb-body { color: #047857; }
+.fb-bad .fb-body { color: #B91C1C; }
+
+.primary-btn {
+  width: 100%; padding: 15px; border-radius: var(--radius);
+  border: none; background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+  color: #fff; font-size: 15px; font-weight: 800; cursor: pointer;
+  font-family: 'Nunito', sans-serif; box-shadow: 0 6px 20px rgba(124,58,237,0.35);
+  transition: transform .15s, box-shadow .15s; margin-bottom: 10px;
+}
+.primary-btn:active { transform: scale(.98); box-shadow: 0 3px 10px rgba(124,58,237,0.25); }
+.outline-btn {
+  width: 100%; padding: 14px; border-radius: var(--radius);
+  border: 1.5px solid var(--border); background: #fff;
+  color: var(--text); font-size: 14px; font-weight: 700; cursor: pointer;
+  font-family: 'Nunito', sans-serif; margin-bottom: 10px;
+  transition: background .15s;
+}
+.outline-btn:active { background: var(--bg); }
+
+/* ── LOADING ── */
+.loading-state { text-align: center; padding: 40px 20px; }
+.spinner {
+  width: 32px; height: 32px; border: 3px solid #E5E7EB;
+  border-top-color: var(--purple); border-radius: 50%;
+  animation: spin .7s linear infinite; margin: 0 auto 12px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text { font-size: 14px; color: var(--text-2); font-weight: 600; }
+
+/* ── SUMMARY ── */
+.summary-header {
+  background: linear-gradient(135deg, var(--purple), #4C1D95);
+  padding: 52px 20px 80px; text-align: center;
+}
+.summary-score-big {
+  font-family: 'Nunito', sans-serif; font-size: 64px; font-weight: 900;
+  color: #fff; line-height: 1;
+}
+.summary-score-label { font-size: 13px; color: rgba(255,255,255,0.7); margin-top: 4px; }
+.summary-body { padding: 16px; margin-top: -50px; }
+.summary-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.summary-stat {
+  background: #fff; border-radius: var(--radius-sm); box-shadow: var(--shadow-card); padding: 16px; text-align: center;
+}
+.summary-stat-num { font-family: 'Nunito', sans-serif; font-size: 26px; font-weight: 900; }
+.summary-stat-num.green { color: var(--green); }
+.summary-stat-num.red { color: var(--red); }
+.summary-stat-lbl { font-size: 11px; color: var(--text-2); margin-top: 3px; font-weight: 600; }
+
+.ready-card { border-radius: var(--radius); padding: 16px; margin-bottom: 14px; }
+.ready-go { background: linear-gradient(135deg, #D1FAE5, #A7F3D0); border: 1px solid #6EE7B7; }
+.ready-close { background: linear-gradient(135deg, #DBEAFE, #BFDBFE); border: 1px solid #93C5FD; }
+.ready-more { background: linear-gradient(135deg, #FEF3C7, #FDE68A); border: 1px solid #FCD34D; }
+.ready-title { font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; margin-bottom: 5px; }
+.ready-go .ready-title { color: #064E3B; }
+.ready-close .ready-title { color: #1E3A5F; }
+.ready-more .ready-title { color: #78350F; }
+.ready-body-text { font-size: 13px; line-height: 1.55; }
+.ready-go .ready-body-text { color: #065F46; }
+.ready-close .ready-body-text { color: #1E40AF; }
+.ready-more .ready-body-text { color: #92400E; }
+
+/* ── MOCK INTRO ── */
+.mock-intro-header {
+  background: linear-gradient(135deg, #4C1D95, var(--purple));
+  padding: 52px 20px 40px; text-align: center;
+}
+.mock-intro-icon {
+  width: 80px; height: 80px; border-radius: 22px;
+  background: rgba(255,255,255,0.15); display: flex; align-items: center;
+  justify-content: center; margin: 0 auto 16px;
+}
+.mock-intro-header h1 { font-size: 24px; color: #fff; font-weight: 900; }
+.mock-intro-header p { font-size: 13px; color: rgba(255,255,255,0.7); margin-top: 6px; }
+.mock-info-list { padding: 16px; }
+.mock-info-item {
+  display: flex; align-items: center; gap: 14px; padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.mock-info-item:last-child { border-bottom: none; }
+.mock-info-icon {
+  width: 40px; height: 40px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.mock-info-title { font-weight: 700; font-size: 14px; font-family: 'Nunito', sans-serif; }
+.mock-info-sub { font-size: 12px; color: var(--text-2); margin-top: 1px; }
+.mock-info-btns { padding: 0 16px 100px; }
+
+/* ── MOCK EXAM ── */
+.mock-exam-top {
+  background: linear-gradient(135deg, var(--purple), #4C1D95);
+  padding: 48px 20px 20px;
+}
+.mock-timer-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.mock-timer-box {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.15); border-radius: 10px; padding: 7px 12px;
+}
+.timer-val { font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #fff; font-variant-numeric: tabular-nums; }
+.timer-warn { color: #FCA5A5 !important; }
+.mock-answered-text { font-size: 12px; color: rgba(255,255,255,0.75); font-weight: 600; }
+.mock-q-grid { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+.mock-q-dot {
+  width: 28px; height: 28px; border-radius: 8px;
+  background: rgba(255,255,255,0.15); border: none; cursor: pointer;
+  font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.7);
+  font-family: 'Nunito', sans-serif; display: flex; align-items: center; justify-content: center;
+  transition: background .15s;
+}
+.mock-q-dot.ans { background: rgba(255,255,255,0.9); color: var(--purple); }
+.mock-q-dot.cur { background: #fff; color: var(--purple); box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--purple-light); }
+.mock-body { padding: 14px 16px 110px; }
+.mock-nav-row { display: flex; gap: 10px; margin-top: 4px; }
+.mock-nav-row .outline-btn { margin-bottom: 0; flex: 1; }
+.mock-nav-row .primary-btn { margin-bottom: 0; flex: 1; }
+
+/* ── RESULTS ── */
+.results-header {
+  background: linear-gradient(135deg, var(--purple), #4C1D95);
+  padding: 52px 20px 80px; text-align: center;
+}
+.results-score { font-family: 'Nunito', sans-serif; font-size: 72px; font-weight: 900; color: #fff; line-height: 1; }
+.results-label { font-size: 13px; color: rgba(255,255,255,0.7); margin-top: 4px; }
+.results-pass { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 6px; }
+.results-body { padding: 16px; margin-top: -50px; }
+.topic-breakdown-card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow-card); padding: 4px 16px; margin-bottom: 14px; }
+.tb-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.tb-row:last-child { border-bottom: none; }
+.tb-name { font-size: 13px; font-weight: 600; color: var(--text); flex: 1; }
+.tb-pct { font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 800; margin: 0 10px; }
+.tb-pct.good { color: var(--green); }
+.tb-pct.ok { color: var(--orange); }
+.tb-pct.bad { color: var(--red); }
+.tb-score { font-size: 11px; color: var(--text-2); }
+.review-tabs { display: flex; gap: 0; background: var(--bg); border-radius: var(--radius-sm); padding: 4px; margin-bottom: 14px; }
+.r-tab { flex: 1; padding: 9px; border: none; background: transparent; border-radius: 9px; font-size: 13px; font-weight: 700; font-family: 'Nunito', sans-serif; color: var(--text-2); cursor: pointer; transition: all .2s; }
+.r-tab.active { background: #fff; color: var(--purple); box-shadow: var(--shadow-card); }
+.review-item { background: #fff; border-radius: var(--radius-sm); margin-bottom: 10px; overflow: hidden; box-shadow: var(--shadow-card); }
+.review-item-header { padding: 10px 14px; display: flex; align-items: center; gap: 8px; background: var(--bg); }
+.review-item-q { padding: 12px 14px; font-size: 13px; color: var(--text); line-height: 1.5; border-top: 1px solid var(--border); }
+.review-item-ans { padding: 12px 14px; font-size: 12px; line-height: 1.5; border-top: 1px solid var(--border); }
+.ria-ok { background: #D1FAE5; color: #065F46; }
+.ria-bad { background: #FEE2E2; color: #991B1B; }
+
+/* ── STATS SCREEN ── */
+.stats-header {
+  background: linear-gradient(135deg, var(--purple), #4C1D95);
+  padding: 52px 20px 28px;
+}
+.stats-header h1 { font-size: 24px; color: #fff; font-weight: 900; }
+.streak-banner {
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(255,255,255,0.15); border-radius: var(--radius-sm);
+  padding: 12px 14px; margin-top: 14px;
+}
+.streak-banner .streak-num { font-family: 'Nunito', sans-serif; font-size: 28px; font-weight: 900; color: #FCD34D; }
+.streak-banner .streak-lbl { font-size: 12px; color: rgba(255,255,255,0.8); font-weight: 600; }
+.stats-body { padding: 20px 16px 100px; }
+.big-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.big-stat-box { background: #fff; border-radius: var(--radius-sm); box-shadow: var(--shadow-card); padding: 16px; }
+.big-stat-box .color-tag { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+.big-stat-num { font-family: 'Nunito', sans-serif; font-size: 28px; font-weight: 900; color: var(--text); margin-top: 4px; }
+.big-stat-lbl { font-size: 11px; color: var(--text-2); font-weight: 600; }
+.topic-mastery-list { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow-card); padding: 4px 16px; margin-bottom: 16px; }
+.tm-row { padding: 13px 0; border-bottom: 1px solid var(--border); }
+.tm-row:last-child { border-bottom: none; }
+.tm-name-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
+.tm-name { font-size: 13px; font-weight: 700; font-family: 'Nunito', sans-serif; color: var(--text); }
+.tm-pct { font-size: 13px; font-weight: 800; font-family: 'Nunito', sans-serif; color: var(--purple); }
+.tm-bar { height: 6px; border-radius: 3px; background: var(--bg); overflow: hidden; }
+.tm-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--purple-light), var(--purple)); transition: width .6s; }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0F0B1E; --card: #1A1433; --text: #F5F3FF;
+    --text-2: #9CA3AF; --text-3: #6B7280; --border: #2D2050;
+  }
+  .opt-btn { background: var(--card); }
+  .outline-btn { background: var(--card); color: var(--text); border-color: var(--border); }
+  .bottom-nav { background: #1A1433; border-top-color: var(--border); }
+  .stat-box, .summary-stat, .card, .review-item, .topic-breakdown-card, .big-stat-box, .topic-mastery-list, .review-tabs { background: var(--card); }
+  .q-card { background: var(--card); }
+  .review-item-header { background: #0F0B1E; }
+  .r-tab.active { background: #0F0B1E; }
+  .tm-bar { background: #2D2050; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HOME SCREEN ══ -->
+<div id="screen-home" class="screen active">
+  <div class="page-header">
+    <p>DataCamp DE101</p>
+    <h1>DE Associate<br>Exam Prep 📚</h1>
+    <div class="readiness-pill">
+      <span>Readiness:</span>
+      <span class="pct" id="h-pct">0%</span>
+    </div>
+    <div class="ov-bar-wrap">
+      <div class="ov-bar-track"><div class="ov-bar-fill" id="h-bar" style="width:0%"></div></div>
+      <div class="ov-bar-label" id="h-msg">Start practising to build your score</div>
+    </div>
+  </div>
+
+  <div class="stat-strip">
+    <div class="stat-box"><div class="num" id="hs-answered">0</div><div class="lbl">Answered</div></div>
+    <div class="stat-box"><div class="num" id="hs-correct">0</div><div class="lbl">Correct</div></div>
+    <div class="stat-box"><div class="num" id="hs-streak">0</div><div class="lbl">Day Streak</div></div>
+  </div>
+
+  <div class="section" style="margin-top:16px">
+    <div class="mock-card" onclick="showMockIntro()">
+      <div class="mock-card-icon">
+        <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div style="flex:1">
+        <h3>Full Mock Exam</h3>
+        <p>Simulate the real DE101 timed exam</p>
+        <div class="mock-tags">
+          <span class="mock-tag">30 questions</span>
+          <span class="mock-tag">45 minutes</span>
+          <span class="mock-tag">all topics</span>
+        </div>
+      </div>
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Topic Practice</div>
+    <div class="card" style="padding:0 18px" id="topic-list"></div>
+  </div>
+  <div style="height:90px"></div>
+</div>
+
+<!-- ══ QUIZ SCREEN ══ -->
+<div id="screen-quiz" class="screen">
+  <div class="quiz-top">
+    <div class="quiz-top-row">
+      <button class="back-btn" onclick="goHome()">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <span class="quiz-topic-name" id="quiz-topic-name">Topic</span>
+    </div>
+    <div class="quiz-prog-row">
+      <div class="quiz-prog-bar"><div class="quiz-prog-fill" id="q-prog-fill" style="width:0%"></div></div>
+      <span class="quiz-prog-text" id="q-prog-text">0 / 10</span>
+    </div>
+    <div class="streak-row" id="streak-dots"></div>
+  </div>
+  <div class="quiz-body">
+    <div id="quiz-loading" class="loading-state" style="display:none">
+      <div class="spinner"></div>
+      <div class="loading-text">Generating question…</div>
+    </div>
+    <div id="quiz-content">
+      <div class="q-card">
+        <div class="q-number" id="q-num">QUESTION 1</div>
+        <div class="q-text" id="q-text"></div>
+        <div id="q-code" class="q-code" style="display:none"></div>
+      </div>
+      <div id="opts-container"></div>
+      <div id="fb-container"></div>
+      <button class="primary-btn" id="next-btn" style="display:none" onclick="nextQ()">Next Question →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TOPIC SUMMARY ══ -->
+<div id="screen-tsummary" class="screen">
+  <div class="summary-header">
+    <div style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:8px" id="ts-topic-label">Topic</div>
+    <div class="summary-score-big" id="ts-score">0%</div>
+    <div class="summary-score-label">Session score</div>
+  </div>
+  <div class="summary-body">
+    <div class="summary-stat-grid">
+      <div class="summary-stat">
+        <div class="summary-stat-num green" id="ts-correct">0</div>
+        <div class="summary-stat-lbl">Correct</div>
+      </div>
+      <div class="summary-stat">
+        <div class="summary-stat-num red" id="ts-wrong">0</div>
+        <div class="summary-stat-lbl">Incorrect</div>
+      </div>
+    </div>
+    <div id="ts-ready-card"></div>
+    <button class="primary-btn" onclick="practiseAgain()">Practise Again 🔁</button>
+    <button class="outline-btn" onclick="goHome()">Back to Home</button>
+  </div>
+</div>
+
+<!-- ══ MOCK INTRO ══ -->
+<div id="screen-mock-intro" class="screen">
+  <div class="mock-intro-header">
+    <div class="mock-intro-icon">
+      <svg width="38" height="38" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    </div>
+    <h1>Full Mock Exam</h1>
+    <p>DE101 simulation — just like the real thing</p>
+  </div>
+  <div class="mock-info-list card" style="margin:16px;border-radius:var(--radius)">
+    <div class="mock-info-item">
+      <div class="mock-info-icon" style="background:#EDE9FE">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+      </div>
+      <div><div class="mock-info-title">30 Questions</div><div class="mock-info-sub">Mixed across all 6 DE101 topics</div></div>
+    </div>
+    <div class="mock-info-item">
+      <div class="mock-info-icon" style="background:#FEF3C7">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div><div class="mock-info-title">45-Minute Timer</div><div class="mock-info-sub">Countdown like the real exam</div></div>
+    </div>
+    <div class="mock-info-item">
+      <div class="mock-info-icon" style="background:#D1FAE5">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </div>
+      <div><div class="mock-info-title">Navigate Freely</div><div class="mock-info-sub">Jump between questions anytime</div></div>
+    </div>
+    <div class="mock-info-item">
+      <div class="mock-info-icon" style="background:#FEE2E2">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      </div>
+      <div><div class="mock-info-title">No Hints During Exam</div><div class="mock-info-sub">Full review with explanations after</div></div>
+    </div>
+  </div>
+  <div class="mock-info-btns" id="mock-intro-btns">
+    <button class="primary-btn" onclick="generateMock()" style="margin:0 16px;width:calc(100% - 32px)">Start Mock Exam 🚀</button>
+    <button class="outline-btn" onclick="goHome()" style="margin:10px 16px 0;width:calc(100% - 32px)">Back to Home</button>
+  </div>
+  <div class="loading-state" id="mock-gen-loading" style="display:none;padding:20px 16px">
+    <div class="spinner"></div>
+    <div class="loading-text">Generating your 30-question exam…</div>
+    <div style="font-size:12px;color:var(--text-3);margin-top:6px">This takes about 30 seconds</div>
+  </div>
+  <div style="height:90px"></div>
+</div>
+
+<!-- ══ MOCK EXAM ══ -->
+<div id="screen-mock" class="screen">
+  <div class="mock-exam-top">
+    <div class="mock-timer-row">
+      <div style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;color:#fff">Mock Exam</div>
+      <div class="mock-timer-box">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span class="timer-val" id="mock-timer">45:00</span>
+      </div>
+    </div>
+    <div class="quiz-prog-row">
+      <div class="quiz-prog-bar"><div class="quiz-prog-fill" id="mock-prog-fill" style="width:0%;background:#A78BFA"></div></div>
+      <span class="quiz-prog-text" id="mock-prog-text">0 / 30</span>
+    </div>
+    <div class="mock-q-grid" id="mock-q-grid"></div>
+  </div>
+  <div class="mock-body">
+    <div class="q-card">
+      <div class="q-number" style="display:flex;justify-content:space-between">
+        <span id="mq-num">QUESTION 1</span>
+        <span id="mq-topic" style="font-size:10px;color:var(--purple-light);text-transform:uppercase;letter-spacing:.05em"></span>
+      </div>
+      <div class="q-text" id="mq-text"></div>
+      <div id="mq-code" class="q-code" style="display:none"></div>
+    </div>
+    <div id="mock-opts-container"></div>
+    <div class="mock-nav-row">
+      <button class="outline-btn" id="mock-prev" onclick="mockNav(-1)">← Prev</button>
+      <button class="primary-btn" id="mock-next" onclick="mockNav(1)" style="margin-bottom:0">Next →</button>
+    </div>
+    <button class="primary-btn" id="mock-submit" onclick="confirmSubmit()" style="display:none;margin-top:10px;background:linear-gradient(135deg,#059669,#047857)">Submit Exam ✓</button>
+  </div>
+</div>
+
+<!-- ══ MOCK RESULTS ══ -->
+<div id="screen-mock-results" class="screen">
+  <div class="results-header">
+    <div class="results-score" id="mr-score">0%</div>
+    <div class="results-label">Your mock exam score</div>
+    <div class="results-pass" id="mr-pass-label">Pass mark: 70%</div>
+  </div>
+  <div class="results-body">
+    <div class="summary-stat-grid">
+      <div class="summary-stat">
+        <div class="summary-stat-num green" id="mr-correct">0</div>
+        <div class="summary-stat-lbl">Correct</div>
+      </div>
+      <div class="summary-stat">
+        <div class="summary-stat-num red" id="mr-wrong">0</div>
+        <div class="summary-stat-lbl">Incorrect</div>
+      </div>
+    </div>
+    <div id="mr-ready-card"></div>
+    <div class="section-title" style="margin-bottom:10px">Score by Topic</div>
+    <div class="topic-breakdown-card" id="mr-topic-breakdown"></div>
+    <div class="section-title" style="margin:14px 0 10px">Question Review</div>
+    <div class="review-tabs">
+      <button class="r-tab active" id="tab-wrong" onclick="switchTab('wrong')">❌ Incorrect</button>
+      <button class="r-tab" id="tab-all" onclick="switchTab('all')">All Questions</button>
+    </div>
+    <div id="review-container"></div>
+    <button class="primary-btn" onclick="showMockIntro()">Take Another Mock 🔁</button>
+    <button class="outline-btn" onclick="goHome()">Back to Home</button>
+  </div>
+</div>
+
+<!-- ══ STATS SCREEN ══ -->
+<div id="screen-stats" class="screen">
+  <div class="stats-header">
+    <h1>My Progress 📊</h1>
+    <div class="streak-banner">
+      <div>
+        <div class="streak-num" id="st-streak">0</div>
+        <div class="streak-lbl">day streak 🔥</div>
+      </div>
+      <div style="flex:1;margin-left:8px">
+        <div style="font-size:13px;color:rgba(255,255,255,0.9);font-weight:600" id="st-streak-msg">Start today to begin your streak!</div>
+      </div>
+    </div>
+  </div>
+  <div class="stats-body">
+    <div class="big-stat-grid">
+      <div class="big-stat-box">
+        <div><span class="color-tag" style="background:var(--purple)"></span><span style="font-size:11px;font-weight:700;color:var(--text-2)">OVERALL READINESS</span></div>
+        <div class="big-stat-num" id="st-readiness">0%</div>
+        <div class="big-stat-lbl" id="st-readiness-lbl">Not started</div>
+      </div>
+      <div class="big-stat-box">
+        <div><span class="color-tag" style="background:var(--green)"></span><span style="font-size:11px;font-weight:700;color:var(--text-2)">ACCURACY</span></div>
+        <div class="big-stat-num" id="st-accuracy">—</div>
+        <div class="big-stat-lbl">Overall correct rate</div>
+      </div>
+      <div class="big-stat-box">
+        <div><span class="color-tag" style="background:var(--cyan)"></span><span style="font-size:11px;font-weight:700;color:var(--text-2)">QUESTIONS</span></div>
+        <div class="big-stat-num" id="st-total">0</div>
+        <div class="big-stat-lbl">Total answered</div>
+      </div>
+      <div class="big-stat-box">
+        <div><span class="color-tag" style="background:var(--orange)"></span><span style="font-size:11px;font-weight:700;color:var(--text-2)">MOCKS TAKEN</span></div>
+        <div class="big-stat-num" id="st-mocks">0</div>
+        <div class="big-stat-lbl">Full mock exams</div>
+      </div>
+    </div>
+    <div class="section-title" style="margin-bottom:10px">Topic Mastery</div>
+    <div class="topic-mastery-list" id="st-topic-mastery"></div>
+  </div>
+  <div style="height:90px"></div>
+</div>
+
+<!-- ══ BOTTOM NAV ══ -->
+<div class="bottom-nav">
+  <div class="nav-item active" id="nav-home" onclick="navTo('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Home
+  </div>
+  <div class="nav-item" id="nav-stats" onclick="navTo('stats')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    Progress
+  </div>
+</div>
+
+<script>
+const TOPICS = [
+  { id:'sql_extraction', name:'SQL Extraction & Joins', sub:'SELECT, JOIN, GROUP BY, subqueries', color:'#EDE9FE', iconColor:'#7C3AED', icon:'M4 7h16M4 12h16M4 17h7' },
+  { id:'sql_cleaning', name:'Data Cleaning (SQL)', sub:'Strings, type casting, dates, patterns', color:'#FEE2E2', iconColor:'#DC2626', icon:'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4' },
+  { id:'sql_quality', name:'Data Quality & Validation', sub:'NULLs, constraints, validation', color:'#D1FAE5', iconColor:'#059669', icon:'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
+  { id:'db_design', name:'Database Design Theory', sub:'Normalization, schemas, storage', color:'#DBEAFE', iconColor:'#2563EB', icon:'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z' },
+  { id:'viz_theory', name:'Visualization Theory', sub:'Chart types, reading plots, trends', color:'#FEF3C7', iconColor:'#D97706', icon:'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
+  { id:'practical', name:'Practical Scenarios', sub:'Real business SQL problems', color:'#FCE7F3', iconColor:'#DB2777', icon:'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4' },
+];
+
+// Embedded question bank — 120 questions across 6 topics
+const QUESTION_BANK = {
+sql_extraction:[
+{q:"What does an INNER JOIN return?",opts:["All rows from both tables","Only rows where the join condition is met in both tables","All rows from the left table with NULLs for non-matches","Only rows from the right table"],ans:1,exp:"INNER JOIN returns only rows where the join condition matches in both tables. Rows without a match are excluded."},
+{q:"Which clause filters groups after aggregation?",opts:["WHERE","FILTER","HAVING","GROUP BY"],ans:2,exp:"HAVING filters after aggregation, while WHERE filters individual rows before grouping."},
+{q:"What does COUNT(column) do differently from COUNT(*)?",opts:["They are identical","COUNT(column) ignores NULL values","COUNT(*) ignores NULL values","COUNT(column) counts distinct values only"],ans:1,exp:"COUNT(column) ignores NULL values in that column. COUNT(*) counts all rows including those with NULLs."},
+{q:"Which SQL clause would you use to remove duplicate rows from results?",opts:["UNIQUE","DISTINCT","DEDUPE","FILTER DUPLICATES"],ans:1,exp:"SELECT DISTINCT removes duplicate rows from the result set."},
+{q:"A subquery in a WHERE clause is called a:",opts:["Correlated query","Nested subquery","Scalar subquery","Derived table"],ans:1,exp:"A subquery inside a WHERE clause is called a nested subquery. It runs first and its result is used by the outer query."},
+{q:"Which JOIN returns all rows from the left table even if no match exists on the right?",opts:["INNER JOIN","RIGHT JOIN","LEFT JOIN","FULL OUTER JOIN"],ans:2,exp:"LEFT JOIN returns all rows from the left table. Columns from the right table will be NULL where no match exists."},
+{q:"What is the correct order of SQL clauses?",opts:["FROM → WHERE → SELECT → GROUP BY → HAVING → ORDER BY","SELECT → FROM → WHERE → GROUP BY → HAVING → ORDER BY","FROM → SELECT → WHERE → ORDER BY → GROUP BY","SELECT → GROUP BY → FROM → WHERE → HAVING"],ans:1,exp:"Logical processing order is FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY — even though SELECT is written first."},
+{q:"Which function returns the highest value in a column?",opts:["TOP()","HIGHEST()","MAX()","CEILING()"],ans:2,exp:"MAX() returns the maximum value in a numeric, date, or string column."},
+{q:"To combine results of two SELECT statements without duplicates, use:",opts:["JOIN","UNION","UNION ALL","INTERSECT"],ans:1,exp:"UNION combines results of two queries and removes duplicate rows. UNION ALL keeps duplicates."},
+{q:"A subquery that returns a single value is called a:",opts:["Row subquery","Table subquery","Scalar subquery","Correlated subquery"],ans:2,exp:"A scalar subquery returns exactly one value (one row, one column), usable wherever a single value is expected."},
+{q:"Which aggregate function counts distinct values?",opts:["COUNT(*)","COUNT(DISTINCT column)","COUNTD(column)","UNIQUE COUNT(column)"],ans:1,exp:"COUNT(DISTINCT column) counts unique non-NULL values in a column."},
+{q:"What does GROUP BY do?",opts:["Sorts results","Filters rows","Organises rows into groups for aggregation","Joins two tables"],ans:2,exp:"GROUP BY organises rows sharing the same values into groups so aggregate functions (SUM, COUNT, etc.) apply per group."},
+{q:"Which JOIN would you use to get ALL rows from both tables, including non-matches?",opts:["INNER JOIN","LEFT JOIN","CROSS JOIN","FULL OUTER JOIN"],ans:3,exp:"FULL OUTER JOIN returns all rows from both tables. NULLs fill where no match exists on either side."},
+{q:"What does the following return?\nSELECT department, AVG(salary) FROM employees GROUP BY department HAVING AVG(salary) > 50000;",code:"SELECT department, AVG(salary)\nFROM employees\nGROUP BY department\nHAVING AVG(salary) > 50000;",opts:["All employees earning over £50k","Departments where the average salary exceeds £50k","Employees grouped by department","An error — HAVING cannot use AVG"],ans:1,exp:"HAVING filters groups after aggregation. This returns only departments where the average salary is above 50000."},
+{q:"Which keyword limits the rows returned by a SELECT statement?",opts:["CAP","LIMIT","RESTRICT","TOP ROWS"],ans:1,exp:"LIMIT (PostgreSQL) restricts the number of rows returned. In SQL Server this is TOP; in Oracle it's ROWNUM or FETCH FIRST."},
+{q:"What does ORDER BY DESC do?",opts:["Removes duplicates","Sorts from lowest to highest","Sorts from highest to lowest","Groups data"],ans:2,exp:"ORDER BY column DESC sorts results in descending order — largest or most recent values appear first."},
+{q:"Which function returns the total of values in a column?",opts:["TOTAL()","ADD()","SUM()","AGGREGATE()"],ans:2,exp:"SUM() returns the sum of all non-NULL numeric values in a column."},
+{q:"When using a subquery in a FROM clause, what must you do?",opts:["Use INNER JOIN","Give it an alias","Wrap it in parentheses only","Use DISTINCT"],ans:1,exp:"A subquery used in the FROM clause (a derived table) must be wrapped in parentheses and given an alias to be referenced."},
+{q:"Which clause would filter rows BEFORE grouping?",opts:["HAVING","AFTER","WHERE","PRE-GROUP"],ans:2,exp:"WHERE filters rows before any grouping or aggregation. HAVING filters after GROUP BY."},
+{q:"What does CROSS JOIN produce?",opts:["Only matching rows","All rows from left table","Cartesian product of both tables","Unique rows only"],ans:2,exp:"CROSS JOIN produces the Cartesian product — every row from the first table paired with every row from the second."},
+],
+sql_cleaning:[
+{q:"Which function removes leading and trailing spaces from a string?",opts:["CLEAN()","STRIP()","TRIM()","REMOVE()"],ans:2,exp:"TRIM() removes leading and trailing whitespace. LTRIM and RTRIM remove only left or right whitespace respectively."},
+{q:"To convert a string to all lowercase in PostgreSQL, use:",opts:["LOWER()","DOWNCASE()","TO_LOWER()","SMALL()"],ans:0,exp:"LOWER() converts all characters in a string to lowercase. UPPER() does the opposite."},
+{q:"Which function replaces all occurrences of a substring?",opts:["SWAP()","CHANGE()","REPLACE()","SUBSTITUTE()"],ans:2,exp:"REPLACE(string, from, to) replaces all occurrences of 'from' with 'to' in the string."},
+{q:"To cast a string column to integer in PostgreSQL, use:",opts:["CONVERT(col, INT)","col::integer","TO_INT(col)","INT(col)"],ans:1,exp:"PostgreSQL uses the :: cast operator. col::integer is equivalent to CAST(col AS integer)."},
+{q:"Which pattern in LIKE matches any single character?",opts:["*","%","_","?"],ans:2,exp:"In SQL LIKE, underscore (_) matches any single character. Percent (%) matches any sequence of characters."},
+{q:"What does the following do?\nSELECT TRIM(LOWER(name)) FROM customers;",code:"SELECT TRIM(LOWER(name)) FROM customers;",opts:["Removes numbers from names","Converts name to lowercase and removes whitespace","Counts name length","Splits name into parts"],ans:1,exp:"LOWER() converts to lowercase first, then TRIM() removes leading/trailing whitespace from the result."},
+{q:"To extract the year from a date column in PostgreSQL:",opts:["YEAR(date_col)","date_col.year","EXTRACT(YEAR FROM date_col)","DATE_YEAR(date_col)"],ans:2,exp:"EXTRACT(YEAR FROM date_col) extracts the year part. You can also extract MONTH, DAY, HOUR, etc."},
+{q:"Which SQL function converts a value to a specific data type?",opts:["CONVERT()","TYPE()","CAST()","FORMAT()"],ans:2,exp:"CAST(value AS type) converts a value to the specified data type. PostgreSQL also accepts the :: shorthand."},
+{q:"To match any string starting with 'data', use:",opts:["LIKE 'data'","LIKE '%data'","LIKE 'data%'","LIKE '_data_'"],ans:2,exp:"'data%' matches strings that start with 'data' followed by any characters. % is a wildcard for zero or more characters."},
+{q:"Which function returns the number of characters in a string?",opts:["SIZE()","LEN()","LENGTH()","COUNT()"],ans:2,exp:"LENGTH() returns the number of characters in a string in PostgreSQL. In SQL Server, LEN() is used."},
+{q:"What does REGEXP_REPLACE do in PostgreSQL?",opts:["Tests if a string matches a pattern","Extracts matching parts of a string","Replaces matches of a regex pattern with another string","Counts regex matches"],ans:2,exp:"REGEXP_REPLACE(string, pattern, replacement) replaces all substrings matching the regex pattern with the replacement string."},
+{q:"To format a date as 'YYYY-MM-DD' in PostgreSQL:",opts:["FORMAT(date, 'YYYY-MM-DD')","TO_CHAR(date, 'YYYY-MM-DD')","CONVERT(date, 'YYYY-MM-DD')","DATE_FORMAT(date, 'YYYY-MM-DD')"],ans:1,exp:"TO_CHAR(date, format) converts a date to a formatted string in PostgreSQL. FORMAT() is used in MySQL."},
+{q:"Which of these correctly identifies a NULL value in SQL?",opts:["col = NULL","col == NULL","col IS NULL","col != NOT NULL"],ans:2,exp:"NULL cannot be compared using = or !=. The correct syntax is IS NULL or IS NOT NULL."},
+{q:"What does COALESCE(a, b, c) return?",opts:["The sum of a, b and c","The first non-NULL value among a, b, c","The last value","NULL if any value is NULL"],ans:1,exp:"COALESCE returns the first non-NULL argument. Useful for providing fallback values when data may be missing."},
+{q:"To split a string on a delimiter and get the second part in PostgreSQL:",opts:["SPLIT(col, ',')[2]","SPLIT_PART(col, ',', 2)","SUBSTRING(col, ',', 2)","STRING_SPLIT(col, ',', 2)"],ans:1,exp:"SPLIT_PART(string, delimiter, position) splits the string by delimiter and returns the Nth part (1-indexed)."},
+{q:"To concatenate two strings in PostgreSQL:",opts:["col1 + col2","CONCAT(col1, col2) only","col1 || col2 or CONCAT(col1, col2)","JOIN(col1, col2)"],ans:2,exp:"PostgreSQL supports both the || operator and the CONCAT() function for string concatenation."},
+{q:"What does NULLIF(a, b) return?",opts:["NULL if a equals b, otherwise a","b if a is NULL","a if b is NULL","The larger of a and b"],ans:0,exp:"NULLIF(a, b) returns NULL if a equals b, otherwise it returns a. Useful for avoiding division by zero."},
+{q:"To clean data by removing non-numeric characters from a string, the best approach is:",opts:["TRIM(col)","REPLACE with regex","CLEAN(col)","STRIP(col)"],ans:1,exp:"Using REGEXP_REPLACE with a regex pattern to match non-numeric characters and replace them with empty string is the standard approach."},
+{q:"Which function in PostgreSQL converts a string to a date?",opts:["TO_DATE(string, format)","DATE(string)","CAST(string)","CONVERT_DATE(string)"],ans:0,exp:"TO_DATE(string, format) parses a string into a date using the specified format, e.g. TO_DATE('2024-01-15', 'YYYY-MM-DD')."},
+{q:"What does UPPER('hello world') return?",opts:["'Hello World'","'HELLO WORLD'","'hello world'","Error"],ans:1,exp:"UPPER() converts all characters to uppercase, returning 'HELLO WORLD'."},
+],
+sql_quality:[
+{q:"Which function returns a default value when a column is NULL?",opts:["IFNULL() in all databases","COALESCE()","DEFAULT()","NULLCHECK()"],ans:1,exp:"COALESCE() is standard SQL and works across databases. It returns the first non-NULL value from the list of arguments."},
+{q:"What type of constraint ensures no duplicate values in a column?",opts:["PRIMARY KEY only","UNIQUE","NOT NULL","CHECK"],ans:1,exp:"A UNIQUE constraint ensures all values in a column are distinct. PRIMARY KEY also implies uniqueness but additionally requires non-NULL."},
+{q:"Which constraint ensures a column cannot store NULL values?",opts:["UNIQUE","PRIMARY KEY only","NOT NULL","REQUIRED"],ans:2,exp:"NOT NULL constraint prevents NULL values from being inserted into a column."},
+{q:"To find rows where a column has missing values:",opts:["WHERE col = NULL","WHERE col IS EMPTY","WHERE col IS NULL","WHERE col = ''"],ans:2,exp:"IS NULL is the correct way to test for missing values. = NULL always evaluates to unknown in SQL."},
+{q:"A CHECK constraint is used to:",opts:["Link two tables","Ensure column values meet a condition","Prevent duplicate rows","Index a column"],ans:1,exp:"CHECK constraint enforces that values in a column satisfy a specified condition, like CHECK(age >= 0)."},
+{q:"Which query finds duplicate customer IDs?",opts:["SELECT customer_id, COUNT(*) FROM orders","SELECT customer_id FROM orders WHERE COUNT(*) > 1","SELECT customer_id, COUNT(*) FROM orders GROUP BY customer_id HAVING COUNT(*) > 1","SELECT DISTINCT customer_id FROM orders"],ans:2,exp:"GROUP BY the column and HAVING COUNT(*) > 1 identifies values that appear more than once, indicating duplicates."},
+{q:"Range validation checks that values:",opts:["Are unique","Are not NULL","Fall within expected minimum and maximum bounds","Have the correct data type"],ans:2,exp:"Range validation confirms values are within acceptable bounds, e.g. ages between 0 and 120."},
+{q:"Which of these is a consistency check?",opts:["Ensuring a date column has no NULLs","Ensuring end_date is always after start_date","Ensuring a name has no numbers","Ensuring values are within a numeric range"],ans:1,exp:"Consistency checks verify logical relationships between fields, such as end_date always being after start_date."},
+{q:"To replace NULLs in a price column with 0:",opts:["REPLACE(price, NULL, 0)","COALESCE(price, 0)","ISNULL(price, 0)","FILLNA(price, 0)"],ans:1,exp:"COALESCE(price, 0) returns price if not NULL, otherwise 0. ISNULL() works in SQL Server but not PostgreSQL."},
+{q:"Which PostgreSQL query checks for values outside an expected range?",opts:["SELECT * FROM t WHERE val NOT IN (min, max)","SELECT * FROM t WHERE val < 0 OR val > 100","SELECT * FROM t WHERE val IS INVALID","SELECT * FROM t HAVING val OUTSIDE RANGE"],ans:1,exp:"A WHERE clause with range conditions identifies out-of-range values. Adjust the bounds to match your expected valid range."},
+{q:"Uniqueness validation checks that:",opts:["No column is NULL","Each row has a primary key only","No two rows have the same value for a given field","All values are within range"],ans:2,exp:"Uniqueness validation ensures a field that should be unique (like an email or order ID) has no duplicate values."},
+{q:"Which constraint enforces referential integrity between tables?",opts:["PRIMARY KEY","UNIQUE","FOREIGN KEY","CHECK"],ans:2,exp:"FOREIGN KEY ensures a value in one table exists in another table's primary key, maintaining referential integrity."},
+{q:"To count NULL values in a column named 'email':",opts:["COUNT(email)","COUNT(*) - COUNT(email)","SUM(IS NULL email)","NULLCOUNT(email)"],ans:1,exp:"COUNT(*) counts all rows. COUNT(email) ignores NULLs. The difference gives you the count of NULL values."},
+{q:"Data type validation verifies that:",opts:["Values are within range","Values are not NULL","Column values match the expected data type format","Rows are unique"],ans:2,exp:"Data type validation checks that values conform to expected types, e.g. a date column contains valid dates, not strings."},
+{q:"Which type of validation checks that all required foreign key values exist?",opts:["Range validation","Uniqueness validation","Referential integrity check","Constraint validation"],ans:2,exp:"Referential integrity checks ensure foreign key values in a child table actually exist in the parent table."},
+{q:"To find rows where both name and email are NULL:",opts:["WHERE name AND email IS NULL","WHERE name IS NULL AND email IS NULL","WHERE ISNULL(name, email)","WHERE name = NULL OR email = NULL"],ans:1,exp:"Use IS NULL for each column individually, combined with AND to require both conditions to be true."},
+{q:"Which SQL statement would you use to test that no order has a negative total?",opts:["SELECT * FROM orders WHERE total < 0","CHECK(total < 0)","ASSERT total >= 0","VALIDATE(total)"],ans:0,exp:"Running SELECT * FROM orders WHERE total < 0 acts as a validation query. If it returns rows, there are data quality issues."},
+{q:"A PRIMARY KEY constraint ensures values are:",opts:["Unique only","Non-NULL only","Both unique and non-NULL","Within a valid range"],ans:2,exp:"PRIMARY KEY enforces both UNIQUE and NOT NULL on a column. Each row must have a unique, non-null primary key."},
+{q:"Which approach handles non-standard missing value representations (like '-' or 'missing') in data?",opts:["IS NULL check","UPDATE table SET col = NULL WHERE col IN ('-','missing')","DELETE rows with those values","Ignore them as they're rare"],ans:1,exp:"Non-standard missing values need to be identified and replaced with actual NULL values using UPDATE with a WHERE clause matching those values."},
+{q:"Constraint validation includes checking:",opts:["Business logic only","NOT NULL, UNIQUE, CHECK, and FOREIGN KEY constraints","Data ranges only","Only primary keys"],ans:1,exp:"Constraint validation covers all database constraints: NOT NULL, UNIQUE, CHECK conditions, and FOREIGN KEY relationships."},
+],
+db_design:[
+{q:"What is database normalisation?",opts:["Compressing data to save space","Organising data to reduce redundancy and dependency","Adding indexes to speed up queries","Backing up database tables"],ans:1,exp:"Normalisation organises data into tables to reduce redundancy (duplicate data) and improve data integrity."},
+{q:"In First Normal Form (1NF), each column must:",opts:["Reference a primary key","Contain atomic (indivisible) values","Be a foreign key","Have no NULL values"],ans:1,exp:"1NF requires each column to hold atomic, single values — no arrays, lists, or multiple values in one field."},
+{q:"A Primary Key:",opts:["Can contain NULL values","Must be unique and non-NULL","Can have duplicate values","Is optional for every table"],ans:1,exp:"A primary key uniquely identifies each row in a table. It must be unique and cannot be NULL."},
+{q:"A Foreign Key:",opts:["Uniquely identifies a row","References a primary key in another table","Is always an integer","Cannot have duplicates"],ans:1,exp:"A foreign key is a column that references a primary key in another table, establishing a relationship between them."},
+{q:"In a Star Schema, what sits at the centre?",opts:["A dimension table","A lookup table","A fact table","An index table"],ans:2,exp:"In a star schema, the fact table sits at the centre, containing measurable events or transactions, surrounded by dimension tables."},
+{q:"What is a Snowflake Schema?",opts:["A star schema with normalised dimension tables","A schema used only for cloud databases","A type of index structure","A schema with no foreign keys"],ans:0,exp:"A snowflake schema is a star schema where dimension tables are normalised into multiple related tables, reducing redundancy."},
+{q:"Which statement best describes Third Normal Form (3NF)?",opts:["No repeating groups","No partial dependencies","No transitive dependencies — all non-key columns depend only on the primary key","All columns have unique values"],ans:2,exp:"3NF eliminates transitive dependencies: every non-key attribute must depend directly on the primary key, not on another non-key attribute."},
+{q:"What does an Entity-Relationship Diagram (ERD) show?",opts:["SQL query execution plans","Tables, their columns, and how they relate to each other","Database performance metrics","Cloud architecture diagrams"],ans:1,exp:"An ERD visually represents database entities (tables), their attributes (columns), and the relationships between them."},
+{q:"Which storage option is best for unstructured data like images and documents?",opts:["Relational database","Data warehouse","Object/file storage (e.g. Amazon S3)","In-memory cache"],ans:2,exp:"Object/file storage like Amazon S3 is designed for unstructured data such as images, videos, and documents."},
+{q:"Second Normal Form (2NF) requires that:",opts:["The table is in 1NF and all non-key columns fully depend on the entire primary key","The table has no NULL values","All columns are unique","There are no foreign keys"],ans:0,exp:"2NF requires 1NF compliance plus that every non-key attribute depends on the whole primary key, not just part of it (relevant for composite keys)."},
+{q:"What is a data warehouse primarily used for?",opts:["Storing real-time transactional data","Fast write operations for applications","Analytical reporting and historical data analysis","Caching frequently accessed web pages"],ans:2,exp:"Data warehouses are optimised for analytical queries on large historical datasets, not for day-to-day transactional operations."},
+{q:"One-to-many relationship means:",opts:["One row in table A matches one row in table B","One row in table A can match many rows in table B","Many rows in A match many rows in B","Tables have no relationship"],ans:1,exp:"A one-to-many relationship means one record in the parent table can relate to multiple records in the child table."},
+{q:"Which is true about indexes in databases?",opts:["They slow down read queries","They are required on all columns","They speed up read queries but can slow down writes","They prevent duplicate values"],ans:2,exp:"Indexes improve query read performance by allowing faster data lookup. However, they add overhead on INSERT, UPDATE, and DELETE operations."},
+{q:"What is denormalisation?",opts:["Removing all foreign keys","Intentionally introducing redundancy to improve read performance","The process of normalising to 3NF","Deleting unused tables"],ans:1,exp:"Denormalisation adds redundant data to reduce the number of joins needed, improving read query performance at the cost of data redundancy."},
+{q:"A junction/bridge table is used to resolve:",opts:["One-to-one relationships","Many-to-many relationships","One-to-many relationships","Self-referencing tables"],ans:1,exp:"A junction (bridge) table resolves many-to-many relationships by breaking them into two one-to-many relationships."},
+{q:"Which type of database is best for structured relational data with complex queries?",opts:["Key-value store","Document database","Relational database (RDBMS)","Graph database"],ans:2,exp:"Relational databases like PostgreSQL use structured tables with defined schemas and support complex SQL queries with joins and aggregations."},
+{q:"What does OLTP stand for?",opts:["Online Text Processing","Online Transaction Processing","Offline Table Processing","Ordered Log Transaction Procedure"],ans:1,exp:"OLTP (Online Transaction Processing) refers to systems designed for fast, real-time transactional operations like order entry or banking."},
+{q:"In database design, cardinality refers to:",opts:["The size of a table in bytes","The number of columns in a table","The uniqueness of values in a column and the nature of relationships between tables","The number of indexes on a table"],ans:2,exp:"Cardinality describes the uniqueness of column values (high vs low) and the nature of table relationships (1:1, 1:N, M:N)."},
+{q:"A surrogate key is:",opts:["A natural business identifier","A system-generated unique identifier with no business meaning","A foreign key that references itself","A composite key with two columns"],ans:1,exp:"A surrogate key is an artificial identifier (usually an auto-increment integer or UUID) with no inherent business meaning, used as a primary key."},
+{q:"What is data partitioning?",opts:["Splitting a table into smaller subsets for performance and management","Encrypting data at rest","Creating a backup of the database","Normalising a table to 3NF"],ans:0,exp:"Partitioning divides a large table into smaller parts based on a column (like date) to improve query performance and manageability."},
+],
+viz_theory:[
+{q:"Which chart type is best for showing the distribution of a continuous variable?",opts:["Bar chart","Pie chart","Histogram","Line graph"],ans:2,exp:"Histograms show the frequency distribution of continuous numeric data by grouping values into bins."},
+{q:"A box plot displays:",opts:["Exact data points only","The median, quartiles, and outliers of a dataset","The correlation between two variables","Proportions of a whole"],ans:1,exp:"A box plot shows the median (middle line), interquartile range (box), and whiskers/outliers, summarising the distribution of data."},
+{q:"Which chart is best for showing a trend over time?",opts:["Pie chart","Scatter plot","Box plot","Line graph"],ans:3,exp:"Line graphs connect data points over time, making them ideal for showing trends, patterns, and changes across time periods."},
+{q:"A bar chart is most appropriate when:",opts:["Showing relationships between two continuous variables","Comparing discrete categories","Displaying distribution of a single variable","Showing proportions of a whole as percentages"],ans:1,exp:"Bar charts compare values across discrete categories — for example, sales by product or average score by department."},
+{q:"A scatter plot is used to:",opts:["Show proportions of categories","Display distributions","Show the relationship or correlation between two continuous variables","Compare discrete group values"],ans:2,exp:"Scatter plots plot individual data points on an x-y axis to reveal correlations, clusters, and outliers between two variables."},
+{q:"What does a positive correlation in a scatter plot look like?",opts:["Points forming a downward-right trend","Points scattered randomly","Points forming an upward-right trend","Points in a horizontal line"],ans:2,exp:"A positive correlation shows an upward-right trend — as x increases, y also tends to increase."},
+{q:"A heatmap is best suited for displaying:",opts:["Trends over time","The distribution of one variable","Relationships or patterns in a matrix of values (rows vs columns)","Exact data point values"],ans:2,exp:"Heatmaps use colour intensity to show patterns in a two-dimensional matrix, such as correlation between variables or activity by hour/day."},
+{q:"A pivot table:",opts:["Creates a chart automatically","Summarises and aggregates data across two categorical dimensions","Displays individual data points","Shows data distribution"],ans:1,exp:"A pivot table summarises data by grouping rows and columns by categorical variables, calculating aggregates (sum, average, count) at each intersection."},
+{q:"The interquartile range (IQR) on a box plot represents:",opts:["The full range of the data","The middle 50% of the data (Q1 to Q3)","The distance from min to median","The outlier threshold"],ans:1,exp:"The IQR is the box in a box plot — from the 25th (Q1) to 75th (Q3) percentile, containing the middle 50% of the data."},
+{q:"Which visualisation is best for showing how a total is divided into parts?",opts:["Line chart","Histogram","Scatter plot","Pie chart or stacked bar chart"],ans:3,exp:"Pie charts and stacked bar charts show part-to-whole relationships, displaying what proportion each category contributes to the total."},
+{q:"A histogram with most values skewed far to the right indicates:",opts:["Most values are high","Most values are low, with a long tail on the right","Values are evenly distributed","There are no outliers"],ans:1,exp:"Right-skewed (positive skew) distribution has most data clustered at lower values with a long tail extending right toward higher values."},
+{q:"In a scatter plot, what does an outlier look like?",opts:["A point that follows the main trend closely","A point far away from the general cluster of data","A horizontal line","A cluster of many points"],ans:1,exp:"An outlier in a scatter plot is a data point that sits far from the main cluster, suggesting it may be unusual or an error."},
+{q:"Which chart best compares the spread/variability of a numeric variable across several groups?",opts:["Line chart","Stacked bar chart","Box plot","Histogram"],ans:2,exp:"Box plots allow direct visual comparison of distribution spread, median, and outliers across multiple groups simultaneously."},
+{q:"A negative correlation in a scatter plot shows:",opts:["Both variables increase together","No relationship between variables","As one variable increases, the other decreases","A non-linear curve"],ans:2,exp:"A negative (inverse) correlation shows a downward-right trend — as x increases, y tends to decrease."},
+{q:"What does colour intensity typically represent in a heatmap?",opts:["Time elapsed","The magnitude or frequency of a value at that cell","Categorical grouping","Sample size"],ans:1,exp:"In heatmaps, darker or more saturated colours represent higher values, while lighter colours represent lower values."},
+{q:"Which of these is NOT appropriate for showing change over time?",opts:["Line chart","Area chart","Pie chart","Bar chart with time on x-axis"],ans:2,exp:"Pie charts show static proportions at a single point in time. They are not suitable for displaying trends or changes over time."},
+{q:"A bimodal histogram has:",opts:["One clear peak","Two distinct peaks","A uniform distribution","A right-skewed tail"],ans:1,exp:"A bimodal distribution has two distinct peaks, suggesting two different groups or patterns in the data."},
+{q:"A pivot table can calculate which of the following?",opts:["Only sums","Only counts","Sums, counts, averages, and other aggregates","Only averages and medians"],ans:2,exp:"Pivot tables can apply multiple aggregate functions: SUM, COUNT, AVERAGE, MAX, MIN, etc., depending on the analysis needed."},
+{q:"What does a flat, horizontal trend in a line graph indicate?",opts:["Rapid growth","A decreasing value","A stable, unchanging value over time","Seasonal variation"],ans:2,exp:"A flat horizontal line in a line chart indicates the value is stable or constant over the time period shown."},
+{q:"Correlation does NOT imply:",opts:["A relationship between variables","Causation","A pattern in data","Statistical association"],ans:1,exp:"A key principle in data analysis: correlation shows association between variables, but does not prove that one causes the other."},
+],
+practical:[
+{q:"The sales team needs a table of customers in lowercase location names with no leading/trailing spaces. Your query should output a column called 'clean_location'. Which is correct?",opts:["SELECT location AS clean_location FROM customers","SELECT TRIM(LOWER(location)) AS clean_location FROM customers","SELECT LOWER(location) AS clean_location FROM customers","SELECT REPLACE(location,' ','') AS clean_location FROM customers"],ans:1,exp:"TRIM removes whitespace, LOWER converts to lowercase. Combined and aliased as clean_location, this matches the requirement."},
+{q:"You need to join a 'sales' table to a 'customers' table, keeping all sales even if the customer record is missing. Which JOIN do you use?",opts:["INNER JOIN","RIGHT JOIN on customers","LEFT JOIN on sales","FULL OUTER JOIN"],ans:2,exp:"LEFT JOIN on the sales table ensures all sales rows are kept. Where no customer match exists, customer columns will be NULL."},
+{q:"A 'policy' column contains values like 'basic', 'BASIC', and ' Basic '. Which query standardises these?",opts:["SELECT DISTINCT policy FROM policies","SELECT TRIM(LOWER(policy)) AS policy FROM policies","SELECT REPLACE(policy, ' ', '') FROM policies","SELECT UPPER(policy) FROM policies"],ans:1,exp:"TRIM removes whitespace and LOWER converts to lowercase, standardising all variations to 'basic'."},
+{q:"You are asked to find customers who have no associated sales records. Which query works?",opts:["SELECT * FROM customers INNER JOIN sales ON customers.id = sales.customer_id","SELECT * FROM customers WHERE customer_id IN (SELECT customer_id FROM sales)","SELECT * FROM customers LEFT JOIN sales ON customers.id = sales.customer_id WHERE sales.customer_id IS NULL","SELECT * FROM customers, sales WHERE customers.id != sales.customer_id"],ans:2,exp:"A LEFT JOIN with WHERE sales.customer_id IS NULL returns only customers with no matching sales rows."},
+{q:"The output DataFrame must be named 'active_policy'. Which SQL approach achieves this?",opts:["Use a VIEW named active_policy","SELECT * FROM policy WHERE active = TRUE — this auto-names the output","SELECT *, 'active_policy' AS name FROM policy","Use the query result as a variable named active_policy in code"],ans:3,exp:"In DataCamp's practical exam, the output variable name is set in your code (e.g. active_policy = pd.read_sql(query, conn)), not within the SQL itself."},
+{q:"A date column is stored as a VARCHAR in format 'DD/MM/YYYY'. You need it as a proper DATE type. Which query converts it?",opts:["CAST(date_col AS DATE)","TO_DATE(date_col, 'DD/MM/YYYY')","DATE(date_col)","CONVERT(date_col, DATE)"],ans:1,exp:"TO_DATE(string, format) parses the string using the specified format. PostgreSQL needs the format to match the stored string exactly."},
+{q:"You need to count orders per customer and only return customers with more than 3 orders. Which query is correct?",opts:["SELECT customer_id, COUNT(*) FROM orders WHERE COUNT(*) > 3","SELECT customer_id, COUNT(*) FROM orders GROUP BY customer_id HAVING COUNT(*) > 3","SELECT customer_id FROM orders GROUP BY customer_id WHERE COUNT > 3","SELECT DISTINCT customer_id FROM orders HAVING COUNT(*) > 3"],ans:1,exp:"GROUP BY groups orders per customer. HAVING COUNT(*) > 3 filters groups after aggregation. WHERE cannot use aggregate functions."},
+{q:"Exam tip: Your output has an unexpected extra column. What should you do?",opts:["Ignore it — extra columns are fine","Submit anyway and hope","Re-read the instructions and SELECT only the required columns","Add a note in the comments"],ans:2,exp:"The practical exam grades your output structure. Extra or missing columns cause failures. Always match the exact column names and count specified."},
+{q:"You need to replace all NULL values in a 'discount' column with 0 for reporting. Use:",opts:["REPLACE(discount, NULL, 0)","NULLIF(discount, 0)","COALESCE(discount, 0) AS discount","ISNULL(discount, 0)"],ans:2,exp:"COALESCE(discount, 0) returns discount if not NULL, otherwise 0. ISNULL is SQL Server-specific; COALESCE is standard SQL."},
+{q:"The insurance practical exam requires you to aggregate total purchases per customer. Your output must include customer_id and total_amount. Which query is correct?",opts:["SELECT customer_id FROM purchase","SELECT customer_id, SUM(amount) AS total_amount FROM purchase GROUP BY customer_id","SELECT customer_id, COUNT(*) FROM purchase","SELECT * FROM purchase ORDER BY customer_id"],ans:1,exp:"SUM(amount) aggregates the total per customer. GROUP BY customer_id ensures one row per customer. The alias matches the required output name."},
+{q:"A common exam mistake: your location column has mixed case ('London', 'london', 'LONDON'). You've grouped by location and get 3 groups instead of 1. Fix:",opts:["Use DISTINCT","Use ORDER BY location","Apply LOWER(location) before grouping: GROUP BY LOWER(location)","Use TRIM(location)"],ans:2,exp:"Applying LOWER() before grouping ensures 'London', 'london', and 'LONDON' are treated as the same value."},
+{q:"To validate that all customer_id values in a sales table exist in the customers table:",opts:["SELECT * FROM sales WHERE customer_id IS NOT NULL","SELECT * FROM sales s LEFT JOIN customers c ON s.customer_id = c.customer_id WHERE c.customer_id IS NULL","SELECT COUNT(*) FROM sales","SELECT DISTINCT customer_id FROM sales"],ans:1,exp:"A LEFT JOIN from sales to customers, filtering WHERE customers.customer_id IS NULL, shows sales with no matching customer — a referential integrity issue."},
+{q:"You need the total revenue per month from an orders table with an order_date column. Which query works?",opts:["SELECT month, SUM(revenue) FROM orders","SELECT EXTRACT(MONTH FROM order_date) AS month, SUM(revenue) AS total_revenue FROM orders GROUP BY EXTRACT(MONTH FROM order_date)","SELECT DATE(order_date), SUM(revenue) FROM orders GROUP BY order_date","SELECT month(order_date), SUM(revenue) FROM orders"],ans:1,exp:"EXTRACT(MONTH FROM order_date) extracts the month number. GROUP BY the same expression and SUM(revenue) gives monthly totals."},
+{q:"An exam task says: output must include 'policy_type' and only active policies. Which query fits?",opts:["SELECT * FROM policy","SELECT policy_type FROM policy","SELECT policy_type FROM policy WHERE active = TRUE","SELECT DISTINCT policy_type FROM policy WHERE active IS NOT NULL"],ans:2,exp:"SELECT policy_type returns only that column, and WHERE active = TRUE filters to active policies only, matching the task requirements."},
+{q:"You're told to calculate the average customer age by location. Which is correct?",opts:["SELECT AVG(age) FROM customers","SELECT location, AVG(age) FROM customers","SELECT location, AVG(age) AS avg_age FROM customers GROUP BY location","SELECT location, age FROM customers ORDER BY location"],ans:2,exp:"GROUP BY location groups customers by location, and AVG(age) calculates the average age within each group. The alias improves output clarity."},
+]
+};
+
+const GLOBAL = {
+  progress: {},
+  totalAnswered: 0,
+  totalCorrect: 0,
+  streak: 0,
+  lastStudyDate: null,
+  mocksTaken: 0,
+  session: { topicId: null, qIdx: 0, total: 10, correct: 0, wrong: 0, history: [], answered: false, currentQ: null, usedIdx: [] },
+  mock: { questions: [], answers: [], currentIdx: 0, timerSecs: 2700, timerInterval: null, startTime: null },
+};
+
+TOPICS.forEach(t => {
+  GLOBAL.progress[t.id] = { correct: 0, total: 0 };
+});
+
+// Load from localStorage
+try {
+  const saved = JSON.parse(localStorage.getItem('de_prep_v2') || '{}');
+  if (saved.progress) GLOBAL.progress = saved.progress;
+  if (saved.totalAnswered) GLOBAL.totalAnswered = saved.totalAnswered;
+  if (saved.totalCorrect) GLOBAL.totalCorrect = saved.totalCorrect;
+  if (saved.streak) GLOBAL.streak = saved.streak;
+  if (saved.lastStudyDate) GLOBAL.lastStudyDate = saved.lastStudyDate;
+  if (saved.mocksTaken) GLOBAL.mocksTaken = saved.mocksTaken;
+  updateStreak();
+} catch(e) {}
+
+function save() {
+  try {
+    localStorage.setItem('de_prep_v2', JSON.stringify({
+      progress: GLOBAL.progress,
+      totalAnswered: GLOBAL.totalAnswered,
+      totalCorrect: GLOBAL.totalCorrect,
+      streak: GLOBAL.streak,
+      lastStudyDate: GLOBAL.lastStudyDate,
+      mocksTaken: GLOBAL.mocksTaken,
+    }));
+  } catch(e) {}
+}
+
+function updateStreak() {
+  const today = new Date().toDateString();
+  if (GLOBAL.lastStudyDate === today) return;
+  const yesterday = new Date(Date.now() - 86400000).toDateString();
+  if (GLOBAL.lastStudyDate === yesterday) {
+    GLOBAL.streak++;
+  } else if (GLOBAL.lastStudyDate && GLOBAL.lastStudyDate !== yesterday) {
+    GLOBAL.streak = 1;
+  } else {
+    GLOBAL.streak = Math.max(1, GLOBAL.streak);
+  }
+  GLOBAL.lastStudyDate = today;
+}
+
+function getMastery(id) {
+  const p = GLOBAL.progress[id];
+  return p.total === 0 ? 0 : Math.round(p.correct / p.total * 100);
+}
+
+function getOverall() {
+  return Math.round(TOPICS.map(t => getMastery(t.id)).reduce((a, b) => a + b, 0) / TOPICS.length);
+}
+
+function pillClass(pct) {
+  if (pct === 0) return 'mp-none';
+  if (pct < 50) return 'mp-low';
+  if (pct < 75) return 'mp-mid';
+  if (pct < 90) return 'mp-high';
+  return 'mp-full';
+}
+
+function pillLabel(pct) {
+  if (pct === 0) return 'Not started';
+  if (pct < 50) return 'Needs work';
+  if (pct < 75) return 'Getting there';
+  if (pct < 90) return 'Almost ready';
+  return 'Mastered ✓';
+}
+
+function renderHome() {
+  const ov = getOverall();
+  document.getElementById('h-pct').textContent = ov + '%';
+  document.getElementById('h-bar').style.width = ov + '%';
+  let msg = 'Tap a topic below to start practising';
+  if (ov > 0 && ov < 50) msg = 'Keep going — focus on weaker topics first';
+  else if (ov >= 50 && ov < 75) msg = 'Good progress! Aim for 80%+ across all topics';
+  else if (ov >= 75 && ov < 90) msg = 'Looking strong — consider booking the mock exam';
+  else if (ov >= 90) msg = '🎓 Ready to book the real exam!';
+  document.getElementById('h-msg').textContent = msg;
+  document.getElementById('hs-answered').textContent = GLOBAL.totalAnswered;
+  document.getElementById('hs-correct').textContent = GLOBAL.totalCorrect;
+  document.getElementById('hs-streak').textContent = GLOBAL.streak;
+
+  const list = document.getElementById('topic-list');
+  list.innerHTML = '';
+  TOPICS.forEach(t => {
+    const pct = getMastery(t.id);
+    const p = GLOBAL.progress[t.id];
+    const row = document.createElement('div');
+    row.className = 'topic-row';
+    row.onclick = () => startTopic(t.id);
+    row.innerHTML = `
+      <div class="topic-icon-box" style="background:${t.color}">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${t.iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="${t.icon}"/></svg>
+      </div>
+      <div style="flex:1;min-width:0">
+        <div class="topic-name">${t.name}</div>
+        <div class="topic-sub">${t.sub}</div>
+      </div>
+      <div class="topic-right">
+        <span class="mastery-pill ${pillClass(pct)}">${pillLabel(pct)}</span>
+        <div class="topic-mini-bar"><div class="topic-mini-fill" style="width:${pct}%"></div></div>
+        ${p.total > 0 ? `<span style="font-size:10px;color:var(--text-3)">${p.correct}/${p.total}</span>` : ''}
+      </div>
+    `;
+    list.appendChild(row);
+  });
+}
+
+function renderStats() {
+  const ov = getOverall();
+  const acc = GLOBAL.totalAnswered > 0 ? Math.round(GLOBAL.totalCorrect / GLOBAL.totalAnswered * 100) + '%' : '—';
+  document.getElementById('st-readiness').textContent = ov + '%';
+  document.getElementById('st-readiness-lbl').textContent = pillLabel(ov);
+  document.getElementById('st-accuracy').textContent = acc;
+  document.getElementById('st-total').textContent = GLOBAL.totalAnswered;
+  document.getElementById('st-mocks').textContent = GLOBAL.mocksTaken;
+  document.getElementById('st-streak').textContent = GLOBAL.streak;
+  let smsg = 'Great consistency — keep it up!';
+  if (GLOBAL.streak === 0) smsg = 'Start today to begin your streak!';
+  else if (GLOBAL.streak === 1) smsg = 'Day 1 — great start!';
+  else if (GLOBAL.streak >= 7) smsg = 'Incredible dedication! 🏆';
+  document.getElementById('st-streak-msg').textContent = smsg;
+
+  const tm = document.getElementById('st-topic-mastery');
+  tm.innerHTML = '';
+  TOPICS.forEach(t => {
+    const pct = getMastery(t.id);
+    const p = GLOBAL.progress[t.id];
+    const row = document.createElement('div');
+    row.className = 'tm-row';
+    row.innerHTML = `
+      <div class="tm-name-row">
+        <span class="tm-name">${t.name}</span>
+        <span class="tm-pct">${pct}%</span>
+      </div>
+      <div class="tm-bar"><div class="tm-fill" style="width:${pct}%"></div></div>
+      ${p.total > 0 ? `<div style="font-size:11px;color:var(--text-2);margin-top:4px">${p.correct} correct of ${p.total} attempted</div>` : ''}
+    `;
+    tm.appendChild(row);
+  });
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function navTo(tab) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('nav-' + tab).classList.add('active');
+  if (tab === 'home') { renderHome(); showScreen('home'); }
+  else if (tab === 'stats') { renderStats(); showScreen('stats'); }
+}
+
+function goHome() {
+  stopMockTimer();
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('nav-home').classList.add('active');
+  renderHome(); showScreen('home');
+}
+
+// ── TOPIC QUIZ ──
+function startTopic(id) {
+  const t = TOPICS.find(x => x.id === id);
+  GLOBAL.session = { topicId: id, qIdx: 0, total: 10, correct: 0, wrong: 0, history: [], answered: false, currentQ: null, usedIdx: [] };
+  document.getElementById('quiz-topic-name').textContent = t.name;
+  showScreen('quiz');
+  loadQuestion();
+}
+
+function practiseAgain() { startTopic(GLOBAL.session.topicId); }
+
+function loadQuestion() {
+  GLOBAL.session.answered = false;
+  const bank = QUESTION_BANK[GLOBAL.session.topicId];
+  // pick a random question not recently used
+  let idx;
+  const available = bank.map((_, i) => i).filter(i => !GLOBAL.session.usedIdx.includes(i));
+  if (available.length === 0) { GLOBAL.session.usedIdx = []; }
+  const pool = available.length > 0 ? available : bank.map((_, i) => i);
+  idx = pool[Math.floor(Math.random() * pool.length)];
+  GLOBAL.session.usedIdx.push(idx);
+  const q = bank[idx];
+  GLOBAL.session.currentQ = { ...q, bankIdx: idx };
+
+  document.getElementById('q-num').textContent = 'QUESTION ' + (GLOBAL.session.qIdx + 1);
+  document.getElementById('q-prog-text').textContent = GLOBAL.session.qIdx + ' / ' + GLOBAL.session.total;
+  document.getElementById('q-prog-fill').style.width = (GLOBAL.session.qIdx / GLOBAL.session.total * 100) + '%';
+  renderStreakDots();
+  document.getElementById('q-text').textContent = q.q;
+  const ce = document.getElementById('q-code');
+  if (q.code) { ce.textContent = q.code; ce.style.display = 'block'; } else { ce.style.display = 'none'; }
+  document.getElementById('opts-container').innerHTML = '';
+  document.getElementById('fb-container').innerHTML = '';
+  document.getElementById('next-btn').style.display = 'none';
+  renderOpts(q, 'opts-container', false);
+}
+
+function renderOpts(q, containerId, mockMode) {
+  const c = document.getElementById(containerId); c.innerHTML = '';
+  ['A', 'B', 'C', 'D'].forEach((l, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    const label = q.opts[i];
+    btn.innerHTML = `<span class="opt-letter">${l}</span><span>${label}</span>`;
+    if (mockMode) {
+      if (GLOBAL.mock.answers[GLOBAL.mock.currentIdx] === i) btn.classList.add('selected');
+      btn.onclick = () => selectMockAnswer(i);
+    } else {
+      btn.onclick = () => selectAnswer(i);
+    }
+    c.appendChild(btn);
+  });
+}
+
+function renderStreakDots() {
+  const c = document.getElementById('streak-dots'); c.innerHTML = '';
+  for (let i = 0; i < GLOBAL.session.total; i++) {
+    const d = document.createElement('div'); d.className = 's-dot';
+    if (i < GLOBAL.session.history.length) d.classList.add(GLOBAL.session.history[i] ? 's-ok' : 's-bad');
+    else d.classList.add('s-empty');
+    c.appendChild(d);
+  }
+}
+
+function selectAnswer(idx) {
+  if (GLOBAL.session.answered) return;
+  GLOBAL.session.answered = true;
+  const q = GLOBAL.session.currentQ;
+  const ok = idx === q.ans;
+  document.getElementById('opts-container').querySelectorAll('.opt-btn').forEach((b, i) => {
+    b.disabled = true;
+    if (i === idx && ok) b.classList.add('correct');
+    else if (i === idx && !ok) b.classList.add('wrong');
+    else if (i === q.ans) b.classList.add('reveal');
+  });
+  if (ok) { GLOBAL.session.correct++; GLOBAL.progress[GLOBAL.session.topicId].correct++; GLOBAL.totalCorrect++; }
+  else GLOBAL.session.wrong++;
+  GLOBAL.progress[GLOBAL.session.topicId].total++;
+  GLOBAL.totalAnswered++;
+  GLOBAL.session.history.push(ok);
+  updateStreak(); save();
+  const fb = document.getElementById('fb-container');
+  if (ok) {
+    fb.innerHTML = `<div class="fb-card fb-ok"><div class="fb-title">✅ Correct!</div><div class="fb-body">${q.exp}</div></div>`;
+  } else {
+    fb.innerHTML = `<div class="fb-card fb-bad"><div class="fb-title">❌ Incorrect</div><div class="fb-body"><strong>Correct answer: ${q.opts[q.ans]}</strong><br><br>${q.exp}</div></div>`;
+  }
+  document.getElementById('next-btn').style.display = 'block';
+}
+
+function nextQ() {
+  GLOBAL.session.qIdx++;
+  if (GLOBAL.session.qIdx >= GLOBAL.session.total) showTopicSummary();
+  else loadQuestion();
+}
+
+function showTopicSummary() {
+  const pct = Math.round(GLOBAL.session.correct / GLOBAL.session.total * 100);
+  const ov = getOverall();
+  document.getElementById('ts-topic-label').textContent = TOPICS.find(t => t.id === GLOBAL.session.topicId).name;
+  document.getElementById('ts-score').textContent = pct + '%';
+  document.getElementById('ts-correct').textContent = GLOBAL.session.correct;
+  document.getElementById('ts-wrong').textContent = GLOBAL.session.wrong;
+  let cls, title, body;
+  if (ov >= 85 && pct >= 80) {
+    cls = 'ready-go'; title = '🎓 You may be ready to book the exam!';
+    body = `Overall mastery ${ov}% and ${pct}% this session — that's exam-passing territory. Try the full mock exam to confirm.`;
+  } else if (ov >= 60 || pct >= 70) {
+    cls = 'ready-close'; title = '📈 Getting close — keep the momentum';
+    body = `Overall mastery: ${ov}%. Aim for 85%+ across all topics. Try a full mock exam when ready.`;
+  } else {
+    const w = TOPICS.slice().sort((a, b) => getMastery(a.id) - getMastery(b.id))[0];
+    cls = 'ready-more'; title = '💪 More practice needed — you\'ve got this';
+    body = `Overall mastery: ${ov}%. Weakest area: "${w.name}" — prioritise that next. Daily sessions during machine time will get you there.`;
+  }
+  document.getElementById('ts-ready-card').innerHTML = `<div class="ready-card ${cls}"><div class="ready-title">${title}</div><div class="ready-body-text">${body}</div></div>`;
+  showScreen('tsummary');
+}
+
+// ── MOCK EXAM ──
+function showMockIntro() {
+  stopMockTimer();
+  document.getElementById('mock-intro-btns').style.display = 'block';
+  document.getElementById('mock-gen-loading').style.display = 'none';
+  showScreen('mock-intro');
+}
+
+function generateMock() {
+  document.getElementById('mock-intro-btns').style.display = 'none';
+  document.getElementById('mock-gen-loading').style.display = 'block';
+  const questions = [];
+  const perTopic = 5;
+  TOPICS.forEach(t => {
+    const bank = QUESTION_BANK[t.id];
+    const shuffled = [...bank].sort(() => Math.random() - 0.5).slice(0, perTopic);
+    shuffled.forEach(q => questions.push({ ...q, _topic: t.name, _topicId: t.id }));
+  });
+  // shuffle all questions
+  questions.sort(() => Math.random() - 0.5);
+  GLOBAL.mock.questions = questions;
+  GLOBAL.mock.answers = new Array(questions.length).fill(undefined);
+  GLOBAL.mock.currentIdx = 0;
+  GLOBAL.mock.startTime = Date.now();
+  document.getElementById('mock-intro-btns').style.display = 'block';
+  document.getElementById('mock-gen-loading').style.display = 'none';
+  startMockTimer();
+  showScreen('mock');
+  renderMockQ();
+}
+
+function renderMockQ() {
+  const idx = GLOBAL.mock.currentIdx;
+  const q = GLOBAL.mock.questions[idx];
+  document.getElementById('mq-num').textContent = 'QUESTION ' + (idx + 1);
+  document.getElementById('mq-topic').textContent = q._topic;
+  document.getElementById('mq-text').textContent = q.q;
+  const ce = document.getElementById('mq-code');
+  if (q.code) { ce.textContent = q.code; ce.style.display = 'block'; } else { ce.style.display = 'none'; }
+  renderOpts(q, 'mock-opts-container', true);
+  document.getElementById('mock-prev').disabled = idx === 0;
+  document.getElementById('mock-next').style.display = idx < GLOBAL.mock.questions.length - 1 ? 'block' : 'none';
+  document.getElementById('mock-submit').style.display = idx === GLOBAL.mock.questions.length - 1 ? 'block' : 'none';
+  renderMockGrid();
+  updateMockProg();
+}
+
+function selectMockAnswer(i) {
+  GLOBAL.mock.answers[GLOBAL.mock.currentIdx] = i;
+  document.getElementById('mock-opts-container').querySelectorAll('.opt-btn').forEach((b, j) => {
+    b.classList.toggle('selected', j === i);
+  });
+  renderMockGrid(); updateMockProg();
+}
+
+function mockNav(dir) {
+  GLOBAL.mock.currentIdx = Math.max(0, Math.min(GLOBAL.mock.questions.length - 1, GLOBAL.mock.currentIdx + dir));
+  renderMockQ();
+}
+
+function renderMockGrid() {
+  const g = document.getElementById('mock-q-grid'); g.innerHTML = '';
+  GLOBAL.mock.questions.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.className = 'mock-q-dot';
+    b.textContent = i + 1;
+    if (GLOBAL.mock.answers[i] !== undefined) b.classList.add('ans');
+    if (i === GLOBAL.mock.currentIdx) b.classList.add('cur');
+    b.onclick = () => { GLOBAL.mock.currentIdx = i; renderMockQ(); };
+    g.appendChild(b);
+  });
+}
+
+function updateMockProg() {
+  const answered = GLOBAL.mock.answers.filter(a => a !== undefined).length;
+  const total = GLOBAL.mock.questions.length;
+  document.getElementById('mock-prog-text').textContent = answered + ' / ' + total + ' answered';
+  document.getElementById('mock-prog-fill').style.width = (answered / total * 100) + '%';
+}
+
+function startMockTimer() {
+  GLOBAL.mock.timerSecs = 2700;
+  GLOBAL.mock.timerInterval = setInterval(() => {
+    GLOBAL.mock.timerSecs--;
+    const m = Math.floor(GLOBAL.mock.timerSecs / 60);
+    const s = GLOBAL.mock.timerSecs % 60;
+    const el = document.getElementById('mock-timer');
+    if (el) {
+      el.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+      el.classList.toggle('timer-warn', GLOBAL.mock.timerSecs < 300);
+    }
+    if (GLOBAL.mock.timerSecs <= 0) { stopMockTimer(); submitMock(); }
+  }, 1000);
+}
+
+function stopMockTimer() {
+  if (GLOBAL.mock.timerInterval) { clearInterval(GLOBAL.mock.timerInterval); GLOBAL.mock.timerInterval = null; }
+}
+
+function confirmSubmit() {
+  const answered = GLOBAL.mock.answers.filter(a => a !== undefined).length;
+  const total = GLOBAL.mock.questions.length;
+  if (answered < total) {
+    const unanswered = total - answered;
+    if (!confirm(`You have ${unanswered} unanswered question${unanswered > 1 ? 's' : ''}. Submit anyway?`)) return;
+  }
+  submitMock();
+}
+
+function submitMock() {
+  stopMockTimer();
+  GLOBAL.mocksTaken++;
+  const elapsed = Math.round((Date.now() - GLOBAL.mock.startTime) / 1000);
+  let correct = 0;
+  const topicStats = {};
+  TOPICS.forEach(t => { topicStats[t.id] = { name: t.name, correct: 0, total: 0 }; });
+  GLOBAL.mock.questions.forEach((q, i) => {
+    const ok = GLOBAL.mock.answers[i] === q.ans;
+    if (ok) correct++;
+    topicStats[q._topicId].total++;
+    if (ok) topicStats[q._topicId].correct++;
+    // update progress
+    GLOBAL.progress[q._topicId].total++;
+    if (ok) GLOBAL.progress[q._topicId].correct++;
+    GLOBAL.totalAnswered++;
+    if (ok) GLOBAL.totalCorrect++;
+  });
+  save();
+  const total = GLOBAL.mock.questions.length;
+  const pct = Math.round(correct / total * 100);
+  document.getElementById('mr-score').textContent = pct + '%';
+  document.getElementById('mr-correct').textContent = correct;
+  document.getElementById('mr-wrong').textContent = total - correct;
+  const barColor = pct >= 70 ? '#10B981' : pct >= 50 ? '#F59E0B' : '#EF4444';
+  // readiness card
+  let rcls, rtitle, rbody;
+  if (pct >= 80) {
+    rcls = 'ready-go'; rtitle = '🎓 Exam ready — go book it!';
+    rbody = `You scored ${pct}% — well above the 70% pass mark. You're ready to sit DE101. Book it while this knowledge is fresh!`;
+  } else if (pct >= 70) {
+    rcls = 'ready-close'; rtitle = '📊 Just above pass — a bit more practice recommended';
+    rbody = `You passed this mock with ${pct}%, but it's close. A few more topic sessions will give you the confidence margin you need.`;
+  } else if (pct >= 55) {
+    rcls = 'ready-close'; rtitle = '📈 Nearly there — keep building';
+    rbody = `You scored ${pct}%. Review the incorrect answers below, focus on weak topics, then retake the mock.`;
+  } else {
+    rcls = 'ready-more'; rtitle = '💪 More preparation needed';
+    rbody = `You scored ${pct}%. Work through each topic systematically and retake this mock. Every session gets you closer.`;
+  }
+  document.getElementById('mr-ready-card').innerHTML = `<div class="ready-card ${rcls}"><div class="ready-title">${rtitle}</div><div class="ready-body-text">${rbody}</div></div>`;
+  const tb = document.getElementById('mr-topic-breakdown'); tb.innerHTML = '';
+  TOPICS.forEach(t => {
+    const ts = topicStats[t.id]; if (!ts || ts.total === 0) return;
+    const tpct = Math.round(ts.correct / ts.total * 100);
+    const row = document.createElement('div'); row.className = 'tb-row';
+    const cls = tpct >= 70 ? 'good' : tpct >= 50 ? 'ok' : 'bad';
+    row.innerHTML = `<span class="tb-name">${ts.name}</span><span class="tb-pct ${cls}">${tpct}%</span><span class="tb-score">${ts.correct}/${ts.total}</span>`;
+    tb.appendChild(row);
+  });
+  GLOBAL.mock.resultTab = 'wrong';
+  renderReview('wrong');
+  showScreen('mock-results');
+}
+
+function switchTab(tab) {
+  GLOBAL.mock.resultTab = tab;
+  document.getElementById('tab-wrong').classList.toggle('active', tab === 'wrong');
+  document.getElementById('tab-all').classList.toggle('active', tab === 'all');
+  renderReview(tab);
+}
+
+function renderReview(tab) {
+  const c = document.getElementById('review-container'); c.innerHTML = '';
+  const items = GLOBAL.mock.questions.map((q, i) => ({ q, i, ans: GLOBAL.mock.answers[i], ok: GLOBAL.mock.answers[i] === q.ans }));
+  const filtered = tab === 'wrong' ? items.filter(x => !x.ok) : items;
+  if (filtered.length === 0) {
+    c.innerHTML = `<div style="text-align:center;font-size:14px;color:var(--text-2);padding:20px 0">${tab === 'wrong' ? '🎉 No incorrect answers!' : 'No questions'}</div>`;
+    return;
+  }
+  filtered.forEach(({ q, i, ans, ok }) => {
+    const div = document.createElement('div'); div.className = 'review-item';
+    const ansText = ans !== undefined ? q.opts[ans] : 'Not answered';
+    div.innerHTML = `
+      <div class="review-item-header">
+        <span style="font-size:16px">${ok ? '✅' : '❌'}</span>
+        <span style="font-size:12px;font-weight:700;color:var(--text-2)">Q${i + 1} · ${q._topic}</span>
+      </div>
+      <div class="review-item-q">${q.q}${q.code ? `<div class="q-code" style="margin-top:8px">${q.code}</div>` : ''}</div>
+      <div class="review-item-ans ${ok ? 'ria-ok' : 'ria-bad'}">
+        <strong>Your answer:</strong> ${ansText}
+        ${!ok ? `<br><strong>Correct:</strong> ${q.opts[q.ans]}` : ''}
+        <br><br>${q.exp}
+      </div>`;
+    c.appendChild(div);
+  });
+}
+
+// Init
+renderHome();
+</script>
+</body>
+</html>
